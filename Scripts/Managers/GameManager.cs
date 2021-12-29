@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public Text m_MessageText;              
     public GameObject m_TankPrefab;
     public GameObject m_CannonPrefab;
+    public GameObject m_CannonBehaviorPrefab;
     public TankManager[] m_Tanks;
     public CannonManager[] m_Cannons;
 
@@ -50,7 +51,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Cannons.Length; i++)
         {
             m_Cannons[i].m_Instance =
-                Instantiate(m_CannonPrefab, m_Cannons[i].m_SpawnPoint.position, m_Cannons[i].m_SpawnPoint.rotation) as GameObject;
+                Instantiate(m_CannonBehaviorPrefab, m_Cannons[i].m_SpawnPoint.position, m_Cannons[i].m_SpawnPoint.rotation) as GameObject;
             m_Cannons[i].cannonNumber = i + 1;
             m_Cannons[i].Setup();
         }
@@ -236,7 +237,7 @@ public class GameManager : MonoBehaviour
         }
         else if (typePlay == 1) // play vs Ai
         {
-            DisableTankControl();
+            DisableTankControlByAi();
             m_RoundWinner = GetRoundWinner();
 
             if (m_RoundWinner != null)

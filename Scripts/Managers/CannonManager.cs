@@ -10,34 +10,37 @@ public class CannonManager
 
     private CannonMovement m_Movement;       
     private CannonShooting m_Shooting;
+    private CannonBehaviorTree m_CannonBehaviorTree;
     private GameObject m_CanvasGameObject;
 
 
     public void Setup()
     {
-        m_Movement = m_Instance.GetComponentInChildren<CannonMovement>();
-        m_Shooting = m_Instance.GetComponentInChildren<CannonShooting>();
+        //m_Movement = m_Instance.GetComponentInChildren<CannonMovement>();
+        //m_Shooting = m_Instance.GetComponentInChildren<CannonShooting>();
+        m_CannonBehaviorTree = m_Instance.GetComponent<CannonBehaviorTree>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
-        m_Movement.cannonNumber = cannonNumber;
-        m_Shooting.cannonNumber = cannonNumber;
+        //m_Movement.cannonNumber = cannonNumber;
+        //m_Shooting.cannonNumber = cannonNumber;
     }
-
 
     public void DisableControl()
     {
-        m_Movement.enabled = false;
-        m_Shooting.enabled = false;
+        //m_Movement.enabled = false;
+        //m_Shooting.enabled = false;
 
+        m_CannonBehaviorTree.enabled = false;
         m_CanvasGameObject.SetActive(false);
     }
 
 
     public void EnableControl()
     {
-        m_Movement.enabled = true;
-        m_Shooting.enabled = true;
+        //m_Movement.enabled = true;
+        //m_Shooting.enabled = true;
 
+        m_CannonBehaviorTree.enabled = true;
         m_CanvasGameObject.SetActive(true);
     }
 
@@ -45,6 +48,8 @@ public class CannonManager
     {
         m_Instance.transform.position = m_SpawnPoint.position;
         m_Instance.transform.rotation = m_SpawnPoint.rotation;
+
+        m_CannonBehaviorTree.reset();
 
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);

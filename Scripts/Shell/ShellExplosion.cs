@@ -44,7 +44,8 @@ public class ShellExplosion : MonoBehaviour
             Rigidbody targetRigidbody = cannonColider[i].GetComponent<Rigidbody>();
             if (!targetRigidbody) continue;
 
-            CannonHealth targetCannonHealth = cannonColider[i].GetComponent<CannonHealth>();
+            //CannonHealth targetCannonHealth = cannonColider[i].GetComponent<CannonHealth>();
+            CannonBehaviorTree targetCannonHealth = cannonColider[i].GetComponent<CannonBehaviorTree>();
             
             if (!targetCannonHealth) continue;
 

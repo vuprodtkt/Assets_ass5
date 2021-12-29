@@ -59,9 +59,9 @@ public class TankShooting : MonoBehaviour
 
             if (disPlayerTank < 20f)
             {
-                if(alpha > 20)
+                if(alpha > 10)
                 {
-                    Quaternion turnRotation = Quaternion.Euler(0f, alpha, 0f);
+                    Quaternion turnRotation = Quaternion.Euler(0f, alpha * Time.deltaTime * 2, 0f);
                     Rigidbody m_Rigidbody = gameObject.GetComponent<Rigidbody>();
                     m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
                 }
@@ -85,7 +85,7 @@ public class TankShooting : MonoBehaviour
             }
             else
             {
-                delayFire = 250;
+                delayFire = 0;
                 tankMove.isAttack = false;
             }
         }
