@@ -114,7 +114,18 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            play(typePlay);
+            if (typePlay == 1) //Player vs Ai
+            {
+                SetCameraPlayerVsAi();
+            }
+            else if (typePlay == 2) // Play Online
+            {
+                SetCameraPlayTwoPlayer();
+            }
+            else if (typePlay == 3) // play Offline
+            {
+                SetCameraPlayTwoPlayer();
+            }
             StartCoroutine(GameLoop());
         }
     }
@@ -133,10 +144,17 @@ public class GameManager : MonoBehaviour
             yield return m_StartWait;
         }else if(typePlay == 2) // play Online
         {
-
-        }else if(typePlay == 1) // play vs Ai
-        {
             DisableTankControl();
+
+            m_CameraControl.SetStartPositionAndSize();
+            roundNumber++;
+            m_MessageText.text = "Round " + roundNumber;
+            yield return m_StartWait;
+        }
+        else if(typePlay == 1) // play vs Ai
+        {
+            ResetAllCannons();
+            DisableTankControlByAi();
 
             m_CameraControl.SetStartPositionAndSize();
             m_MessageText.text = "Player VS Ai";
@@ -169,17 +187,15 @@ public class GameManager : MonoBehaviour
         {
             EnableTankControlByAi();
             m_MessageText.text = string.Empty;
-            while (!(OneTankLeft() && NoCannonLeft()))
+            while (!OneTankLeft())
             {
                 yield return null;
             }
         }
     }
 
-
     private IEnumerator RoundEnding()
     {
-        
         if (typePlay == 3) // play offline
         {
             DisableTankControl();
@@ -255,18 +271,32 @@ public class GameManager : MonoBehaviour
         return numTanksLeft <= 1;
     }
 
-    private bool NoCannonLeft()
-    {
-        int numTanksLeft = 0;
+    //private bool checkAiLoop()
+    //{
+    //    int numTanksLeft = 0;
+    //    bool isPlayerLived = false;
 
-        for (int i = 0; i < m_Cannons.Length; i++)
-        {
-            if (m_Cannons[i].m_Instance.activeSelf)
-                numTanksLeft++;
-        }
+    //    for (int i = 0; i < m_Tanks.Length; i++)
+    //    {
+    //        if (m_Tanks[i].m_Instance.activeSelf)
+    //        {
+    //            numTanksLeft++;
+    //            if (m_Tanks[i].playerNumber == 1) isPlayerLived = true;
+    //        }
+    //    }
 
-        return numTanksLeft <= 0;
-    }
+    //    int numCannonsLeft = 0;
+    //    for (int i = 0; i < m_Cannons.Length; i++)
+    //    {
+    //        if (m_Cannons[i].m_Instance.activeSelf)
+    //            numCannonsLeft++;
+    //    }
+
+    //    if (isPlayerLived && numTanksLeft == 1 && numCannonsLeft <= 0) return true;
+    //    if (!isPlayerLived) return true;
+
+    //    return false;
+    //}
 
 
     private TankManager GetRoundWinner()
@@ -354,6 +384,14 @@ public class GameManager : MonoBehaviour
     }
 
     private void DisableTankControl()
+    {
+        for (int i = 0; i < m_Tanks.Length; i++)
+        {
+            m_Tanks[i].DisableControl();
+        }
+    }
+
+    private void DisableTankControlByAi()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {

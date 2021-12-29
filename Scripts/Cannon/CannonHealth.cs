@@ -36,7 +36,7 @@ public class CannonHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         // Adjust the tank's current health, update the UI based on the new health and check whether or not the tank is dead.
-        currentHealth -= damage;
+        currentHealth -= damage/2;
         SetHealthUI();
         if(currentHealth <= 0f && !isDead)
         {

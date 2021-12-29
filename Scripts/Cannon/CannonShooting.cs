@@ -58,7 +58,7 @@ public class CannonShooting : MonoBehaviour
             cannonMove.isAttack = true;
             if (delayFire > 150)
             {
-                int randValue = (int)(disPlayerTank);
+                int randValue = (int)(disPlayerTank - 5f);
                 currentLaunchForce = randValue;
                 Fire();
                 delayFire = 0;
@@ -71,7 +71,7 @@ public class CannonShooting : MonoBehaviour
         }
         else
         {
-            delayFire = 250;
+            delayFire = 200;
             cannonMove.isAttack = false;
         }
     }
